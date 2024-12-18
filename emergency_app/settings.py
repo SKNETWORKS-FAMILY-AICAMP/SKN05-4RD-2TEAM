@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-k06qpkj8!am&97l0xa&jficbhbqx@)u3zbh#7ag2t9^kz^rsir
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'emergency_service',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -105,20 +107,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-
+import os
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -139,4 +141,10 @@ NAVER_CLIENT_ID = config('NAVER_CLIENT_ID')
 NAVER_CLIENT_SECRET = config('NAVER_CLIENT_SECRET')
 OPENAI_API_KEY = config('OPENAI_API_KEY')
 
-
+# CORS 설정
+CORS_ALLOW_ALL_ORIGINS = True  # 모든 출처 허용
+# 보안을 위해 특정 도메인만 허용하려면:
+# CORS_ALLOWED_ORIGINS = [
+#     'https://your-domain.com',
+#     'https://another-domain.com',
+# ]
