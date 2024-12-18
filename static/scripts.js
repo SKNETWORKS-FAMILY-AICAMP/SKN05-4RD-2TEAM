@@ -18,12 +18,7 @@ document.getElementById('location-form').addEventListener('submit', function(eve
 document.getElementById('chat-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const loadingMessage = document.getElementById('loading-message');
-    const progressBar = document.getElementById('progress-bar');
-    const progressBarFill = document.querySelector('.progress-bar-fill');
-    const startTime = Date.now();  // Start time
     loadingMessage.style.display = 'flex';
-    progressBar.style.display = 'block';
-    progressBarFill.style.width = '0%';
 
     const formData = new FormData(this);
     fetch('', {
@@ -45,21 +40,14 @@ document.getElementById('chat-form').addEventListener('submit', function(event) 
         chatContainer.appendChild(aiMessage);
 
         const chatBubble = aiMessage.querySelector('.chat-bubble');
-        let totalBytes = 0;
 
         function readStream() {
             reader.read().then(({ done, value }) => {
                 if (done) {
-                    const endTime = Date.now();  // End time
-                    const timeTaken = ((endTime - startTime) / 1000).toFixed(2);  // Calculate time taken in seconds
                     loadingMessage.style.display = 'none';
-                    progressBar.style.display = 'none';
-                    alert(`Streaming completed in ${timeTaken} seconds`);  // Display time taken
                     return;
                 }
-                totalBytes += value.length;
                 chatBubble.textContent += decoder.decode(value, { stream: true });
-                progressBarFill.style.width = `${Math.min(100, (totalBytes / response.headers.get('Content-Length')) * 100)}%`;
                 readStream();
             });
         }
@@ -68,7 +56,6 @@ document.getElementById('chat-form').addEventListener('submit', function(event) 
     .catch(error => {
         console.error('Error:', error);
         loadingMessage.style.display = 'none';
-        progressBar.style.display = 'none';
     });
 });
 
@@ -90,4 +77,4 @@ function toggleSidebar() {
     const mainContent = document.getElementById('main-content');
     sidebar.classList.toggle('collapsed');
     mainContent.classList.toggle('collapsed');
-} 
+}
