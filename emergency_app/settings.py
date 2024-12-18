@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k06qpkj8!am&97l0xa&jficbhbqx@)u3zbh#7ag2t9^kz^rsir'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -140,6 +141,7 @@ if DEBUG:
 NAVER_CLIENT_ID = config('NAVER_CLIENT_ID')
 NAVER_CLIENT_SECRET = config('NAVER_CLIENT_SECRET')
 OPENAI_API_KEY = config('OPENAI_API_KEY')
+SECRET_KEY = config('SECRET_KEY')
 
 # CORS 설정
 CORS_ALLOW_ALL_ORIGINS = True  # 모든 출처 허용
