@@ -1,0 +1,85 @@
+1. 가상환경 생성
+python3 -m venv venv
+	- 활성화
+	source venv/bin/activate
+
+
+2. 프로젝트 폴더생성 및 깃연동
+mkdir project
+cd project
+	- git연동
+	git clone <깃주소> .
+
+
+3. 필요한 라이브러리 설치
+	pip install django
+	sudo apt update
+	sudo apt install python3 python3-pip
+	sudo apt install python3-venv	
+	- 패키지 설치
+	pip install -r requirements.txt
+	pip install gevent
+	pip install django-cors-headers
+
+	
+4. settings.py 수정
+ALLOWED_HOSTS = [ '*' ]
+
+
+5. .env파일 작성, 외부 유출 안되는 api key
+	nano .env
+	- 내용 입력
+	NAVER_CLIENT_ID=your-client-id-here
+	NAVER_CLIENT_SECRET=your-client-secret-here
+	OPENAI_API_KEY=your-openai-api-key-here
+	SECRET_KEY =your-scret-key-here
+
+
+6. gunicorn & nginx 설치	
+	- nginx 설치
+	sudo apt update
+	sudo apt install nginx
+
+	- nginx 서비스 시작
+	sudo systemctl start nginx
+
+	- nginx가 서버 재부팅시 자동으로 시작
+	sudo systemctl enable nginx
+
+	- nginx 실행확인 - active 가 나와야 함
+	sudo systemctl status nginx
+
+	-gunicorn 설치
+	pip install gunicorn
+
+	- static파일들을 불러오기
+	 python manage.py collectstatic
+
+
+7. nginx 파일 작성
+	sudo nano /etc/nginx/sites-available/emergency
+	emergency 파일 참고
+
+
+8. gunicorn systemctl 서비스 파일 생성
+	sudo nano /etc/systemd/system/gunicorn.service
+	gunicorn.service 파일 참고
+
+
+9. 다시 수집 후 실행
+	python manage.py collectstatic
+
+	sudo systemctl daemon-reload
+	sudo systemctl restart gunicorn
+	sudo systemctl status gunicorn 
+	정상적으로 active상태가 나와야함
+	
+	sudo systemctl status guniorn
+
+
+10. 정적파일 권한설정
+sudo chmod -R 755 /home/ubuntu/emergency/staticfiles/
+sudo chown -R ubuntu:www-data /home/ubuntu/emergency/staticfiles/
+
+
+	

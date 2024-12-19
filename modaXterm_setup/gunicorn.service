@@ -1,0 +1,16 @@
+[Unit]
+Description=gunicorn daemon for Django
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/emergency
+ExecStart=/home/ubuntu/venv/bin/gunicorn \
+  --workers 3 \
+  --worker-class gevent \
+  --bind unix:/home/ubuntu/emergency/emergency_app.sock \
+  emergency_app.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
